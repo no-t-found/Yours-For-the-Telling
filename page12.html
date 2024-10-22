@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 12</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            cursor: none;
+        }
+        #custom-cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+        .main-text, .additional-text, .new-text, .omen-text, .pea-text {
+            font-size: 1.2em;
+            max-width: 600px;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .scream {
+            animation: scream 0.7s ease-in-out;
+        }
+        @keyframes scream {
+            0%, 100% { transform: scale(1) rotate(0deg) translateY(0); }
+            10% { transform: scale(1.2) rotate(-5deg) translateY(-5px); }
+            20% { transform: scale(1.4) rotate(5deg) translateY(5px); }
+            30% { transform: scale(1.6) rotate(-5deg) translateY(-5px); }
+            40% { transform: scale(1.8) rotate(5deg) translateY(5px); }
+            50% { transform: scale(2) rotate(-5deg) translateY(-5px); }
+            60% { transform: scale(1.8) rotate(5deg) translateY(5px); }
+            70% { transform: scale(1.6) rotate(-5deg) translateY(-5px); }
+            80% { transform: scale(1.4) rotate(5deg) translateY(5px); }
+            90% { transform: scale(1.2) rotate(-5deg) translateY(-5px); }
+        }
+        .trash-bin {
+            font-size: 40px;
+            color: #0f0;
+            cursor: pointer;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .draggable {
+            cursor: move;
+        }
+
+        .hidden-text, .glum-text, .final-text, .third-pea-text, .understand-text, .right-text {
+            display: none;
+            color: #0f0;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .typing {
+            overflow: hidden;
+            border-right: .15em solid #0f0;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 3.5s steps(6, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #0f0; }
+        }
+
+        .typing-text {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: .15em solid #0f0;
+            animation: 
+                typing 3s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        .interactive {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        #listenSpan:hover {
+            cursor: url('path/to/sound-icon.png'), auto;
+        }
+
+        #analyseSpan:hover {
+            cursor: url('path/to/magnifying-glass-icon.png'), auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <div class="illustration">
+        <!-- You can add an illustration here if needed -->
+    </div>
+    <p class="main-text">"Eeky-peeky!"</p>
+    <p class="additional-text">- they cried as they popped open their optics.</p>
+    <p class="new-text">"Eeky-peeky! What a ghastly dream we've just dreamed!"</p>
+    <p class="omen-text" id="omenText">"A bad omen."</p>
+    <p class="pea-text" id="peaText">- the first pea said.</p>
+    <div class="trash-bin" id="trashBin">🗑️</div>
+    <p class="hidden-text" id="hiddenText">"Amen."</p>
+    <p class="glum-text" id="glumText">"I feel quite glum."</p>
+    <p class="final-text" id="finalText">"Don't let it upset you so,"</p>
+    <p class="third-pea-text" id="thirdPeaText">- said the third pea, who was the smartest of the three,</p>
+    <p class="understand-text" id="understandText">"the point is not to mope and fret but to understand,"</p>
+    <p class="right-text" id="rightText"><span class="typing">right?</span></p>
+    <p id="finalAnalyseText" style="display: none;"></p>
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+        const illustration = document.querySelector('.illustration');
+        const mainText = document.querySelector('.main-text');
+        const additionalText = document.querySelector('.additional-text');
+        const newText = document.querySelector('.new-text');
+        const omenText = document.querySelector('.omen-text');
+        const peaText = document.querySelector('.pea-text');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        function animateScream(element) {
+            element.classList.add('scream');
+            element.addEventListener('animationend', () => {
+                element.classList.remove('scream');
+            }, {once: true});
+        }
+
+        function showText(element, delay = 0) {
+            setTimeout(() => {
+                element.style.opacity = '1';
+                if (element === mainText) {
+                    animateScream(element);
+                }
+            }, delay);
+        }
+
+        function hideText(element, delay = 0) {
+            setTimeout(() => {
+                element.style.opacity = '0';
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 1000);
+            }, delay);
+        }
+
+        function flickeringLight(element) {
+            let isOn = false;
+            const flickerSequence = [50, 30, 100, 30, 50, 200, 50, 400, 100, 500];
+            let sequenceIndex = 0;
+
+            function toggleLight() {
+                isOn = !isOn;
+                element.style.color = isOn ? '#0f0' : '#000';
+                element.style.textShadow = isOn ? '0 0 5px #0f0, 0 0 10px #0f0' : 'none';
+
+                if (sequenceIndex < flickerSequence.length) {
+                    setTimeout(toggleLight, flickerSequence[sequenceIndex]);
+                    sequenceIndex++;
+                } else {
+                    element.style.color = '#0f0';
+                    element.style.textShadow = '0 0 5px #0f0, 0 0 10px #0f0';
+                }
+            }
+
+            toggleLight();
+        }
+
+        showText(mainText);
+        showText(additionalText, 2000);
+        hideText(mainText, 5000);
+        hideText(additionalText, 5000);
+        showText(newText, 6000);
+
+        let isDragging = false;
+        let dragTarget = null;
+
+        function enableDragging(element) {
+            element.classList.add('draggable');
+            element.addEventListener('mousedown', startDragging);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDragging);
+        }
+
+        function startDragging(e) {
+            isDragging = true;
+            dragTarget = e.target;
+            dragTarget.style.position = 'absolute';
+            dragTarget.style.zIndex = 1000;
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            dragTarget.style.left = e.clientX + 'px';
+            dragTarget.style.top = e.clientY + 'px';
+        }
+
+        function stopDragging() {
+            if (!isDragging) return;
+            isDragging = false;
+            const trashBin = document.getElementById('trashBin');
+            const trashRect = trashBin.getBoundingClientRect();
+            const targetRect = dragTarget.getBoundingClientRect();
+
+            if (
+                targetRect.left < trashRect.right &&
+                targetRect.right > trashRect.left &&
+                targetRect.top < trashRect.bottom &&
+                targetRect.bottom > trashRect.top
+            ) {
+                dragTarget.style.display = 'none';
+                document.getElementById('peaText').style.display = 'none';
+                showTextWithDelay('hiddenText', 0);
+                trashBin.style.display = 'none';
+                
+                setTimeout(() => {
+                    showTextWithDelay('peaText', 0);
+                    document.getElementById('peaText').textContent = "- said the second pea.";
+                    
+                    setTimeout(() => {
+                        showTextWithDelay('glumText', 0);
+                        
+                        setTimeout(() => {
+                            hideTextWithDelay('hiddenText', 0);
+                            hideTextWithDelay('glumText', 0);
+                            hideTextWithDelay('peaText', 0);
+                            
+                            setTimeout(() => {
+                                showTextWithDelay('finalText', 0);
+                                showTextWithDelay('thirdPeaText', 3000);
+                                showTextWithDelay('understandText', 6000);
+                                showTextWithDelay('rightText', 9000);
+
+                                // Show the final analyse text after all other interactions are complete
+                                setTimeout(() => {
+                                    hideTextWithDelay('finalText', 0);
+                                    hideTextWithDelay('thirdPeaText', 0);
+                                    hideTextWithDelay('understandText', 0);
+                                    hideTextWithDelay('rightText', 0);
+
+                                    setTimeout(showFinalAnalyseText, 2000);
+                                }, 14000);
+                            }, 3000);
+                        }, 4000);
+                    }, 2000);
+                }, 2000);
+            }
+
+            dragTarget.style.position = 'static';
+            dragTarget.style.zIndex = 'auto';
+        }
+
+        illustration.addEventListener('click', () => {
+            hideText(newText);
+            setTimeout(() => {
+                showText(omenText);
+                showText(peaText);
+                flickeringLight(omenText);
+                setTimeout(() => {
+                    const trashBin = document.getElementById('trashBin');
+                    trashBin.style.display = 'block';
+                    trashBin.style.color = '#0f0'; // Tornar a lixeira verde
+                    enableDragging(omenText);
+                }, 2000);
+            }, 1000);
+        });
+
+        function showTextWithDelay(elementId, delay) {
+            setTimeout(() => {
+                const element = document.getElementById(elementId);
+                element.style.display = 'block';
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                }, 50);
+            }, delay);
+        }
+
+        function hideTextWithDelay(elementId, delay) {
+            setTimeout(() => {
+                const element = document.getElementById(elementId);
+                element.style.opacity = '0';
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 2000);
+            }, delay);
+        }
+
+        function setupInteractiveWords() {
+            const listenSpan = document.getElementById('listenSpan');
+            const analyseSpan = document.getElementById('analyseSpan');
+            const tinySound = new Audio('path/to/tiny-sound.mp3'); // Replace with actual path
+
+            listenSpan.addEventListener('click', () => {
+                window.location.href = 'page13.html'; // Replace with actual path if different
+            });
+
+            listenSpan.addEventListener('mouseover', () => {
+                tinySound.play();
+            });
+
+            analyseSpan.addEventListener('click', () => {
+                window.location.href = 'page15.html'; // Replace with actual path if different
+            });
+        }
+
+        function showFinalAnalyseText() {
+            const finalAnalyseText = document.getElementById('finalAnalyseText');
+            finalAnalyseText.style.display = 'block';
+            finalAnalyseText.classList.add('fade-in');
+            finalAnalyseText.innerHTML = 'Just you <span id="listenSpan" class="interactive">listen</span> while I <span id="analyseSpan" class="interactive">analyse</span> it all…';
+            setupInteractiveWords();
+        }
+
+        // Modify the part where we show the analyseText to include the setupInteractiveWords function:
+        setTimeout(() => {
+            const analyseText = document.getElementById('analyseText');
+            analyseText.style.display = 'block';
+            analyseText.innerHTML = 'Just you <span id="listenSpan" class="interactive">listen</span> while I <span id="analyseSpan" class="interactive">analyse</span> it all…';
+            setupInteractiveWords();
+        }, 2000);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('finalAnalyseText').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

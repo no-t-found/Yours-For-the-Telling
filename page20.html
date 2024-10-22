@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 20</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,0,0,0.3), rgba(255,127,0,0.3), rgba(255,255,0,0.3), rgba(0,255,0,0.3), rgba(0,0,255,0.3), rgba(139,0,255,0.3));
+            background-size: 600% 600%;
+            animation: gradientBG 20s ease infinite;
+            z-index: -1;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            background-color: rgba(0,0,0,0.8);
+        }
+        #typed-text {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-bottom: 2em;
+            z-index: 1;
+            color: #0f0;
+            background-color: rgba(0,0,0,0.8);
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 3em;
+        }
+        .button-container {
+            margin-top: 2em;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        button {
+            background-color: rgba(0,0,0,0.8);
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        button:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <canvas id="confetti-canvas"></canvas>
+    <div class="illustration" id="illustrationFrame"></div>
+    <div id="typed-text"></div>
+    <div class="button-container">
+        <button id="downloadButton">Keep the ending</button>
+    </div>
+
+    <script>
+        // Illustration and download code (unchanged)
+        const illustrations = [
+            'path/to/illustration1.jpg',
+            'path/to/illustration2.jpg',
+            'path/to/illustration3.jpg'
+        ];
+
+        let currentIllustration = 0;
+        const illustrationFrame = document.getElementById('illustrationFrame');
+        const downloadButton = document.getElementById('downloadButton');
+        const typedText = document.getElementById('typed-text');
+        const buttonContainer = document.querySelector('.button-container');
+
+        illustrationFrame.addEventListener('click', () => {
+            currentIllustration = (currentIllustration + 1) % illustrations.length;
+            illustrationFrame.innerHTML = `<img src="${illustrations[currentIllustration]}" alt="Illustration ${currentIllustration + 1}" style="max-width: 100%; max-height: 100%;">`;
+        });
+
+        downloadButton.addEventListener('click', () => {
+            // Download code (unchanged)
+        });
+
+        function urlToPromise(url) {
+            // urlToPromise function (unchanged)
+        }
+
+        window.onload = () => {
+            illustrationFrame.innerHTML = `<img src="${illustrations[0]}" alt="Illustration 1" style="max-width: 100%; max-height: 100%;">`;
+            typeText("There is no sequel. The tale is finished. Finished!");
+        };
+
+        function typeText(text) {
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    typedText.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 50);
+                } else {
+                    buttonContainer.style.opacity = 1;
+                }
+            }
+            type();
+        }
+
+        // Colorful glitchy confetti effect
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const confettiColors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#8b00ff'];
+        const confettiCount = 100;
+        const confetti = [];
+
+        class GlitchyConfetti {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height;
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -10;
+                this.size = Math.random() * 5 + 2;
+                this.speed = Math.random() * 2 + 1;
+                this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                this.glitchCounter = 0;
+                this.glitchFrequency = Math.random() * 100 + 50;
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) {
+                    this.reset();
+                }
+
+                this.glitchCounter++;
+                if (this.glitchCounter > this.glitchFrequency) {
+                    this.glitch();
+                    this.glitchCounter = 0;
+                    this.glitchFrequency = Math.random() * 100 + 50;
+                }
+            }
+
+            glitch() {
+                this.x += (Math.random() - 0.5) * 10;
+                this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                this.size = Math.random() * 5 + 2;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+            }
+        }
+
+        for (let i = 0; i < confettiCount; i++) {
+            confetti.push(new GlitchyConfetti());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confetti.forEach(c => {
+                c.update();
+                c.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 19</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        .curtain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: #000;
+            z-index: 10;
+        }
+        .handle {
+            width: 100%;
+            height: 40px;
+            background-color: #0f0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #000;
+        }
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            padding-top: 60px;
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin: 0 auto 2em;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+        .button-container {
+            margin-top: 2em;
+        }
+        button {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        button:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+        .hidden-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5em;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 15;
+            width: 80%;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="curtain" id="curtain"></div>
+    <div class="handle" id="handle">Pull down, if not</div>
+    <div class="hidden-text" id="hiddenText">
+        In this case too, the tale is finished. Ended!
+    </div>
+    <div class="content">
+        <div class="illustration"></div>
+        <p>They skedaddled back to their pod, pulled down the lid over themselves and fell fast asleep again.</p>
+        <div class="button-container">
+            <button onclick="window.location.href='page20.html'">I wish to know the sequel</button>
+        </div>
+    </div>
+
+    <script>
+        const handle = document.getElementById('handle');
+        const curtain = document.getElementById('curtain');
+        const hiddenText = document.getElementById('hiddenText');
+        let isDragging = false;
+        let startY;
+
+        handle.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startY = e.clientY - handle.offsetTop;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const y = e.clientY - startY;
+            const windowHeight = window.innerHeight;
+            const percentage = Math.min(Math.max(y / windowHeight, 0), 1);
+            
+            handle.style.top = `${y}px`;
+            curtain.style.height = `${y + 40}px`;
+            
+            if (percentage > 0.5) {
+                hiddenText.style.opacity = (percentage - 0.5) * 2;
+            } else {
+                hiddenText.style.opacity = 0;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            if (parseInt(handle.style.top) < window.innerHeight / 2) {
+                handle.style.top = '0px';
+                curtain.style.height = '40px';
+                hiddenText.style.opacity = 0;
+            } else {
+                handle.style.top = `${window.innerHeight - 40}px`;
+                curtain.style.height = '100%';
+                hiddenText.style.opacity = 1;
+            }
+        });
+    </script>
+</body>
+</html>

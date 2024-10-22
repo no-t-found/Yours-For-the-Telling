@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 13</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        #container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            transform: translateY(-5vh); /* Move everything up by 5% of the viewport height */
+        }
+        #illustration {
+            width: 300px;
+            height: 200px;
+            border: 2px solid #0f0;
+            margin: 20px auto;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+        .text-line {
+            min-height: 1.2em;
+            opacity: 0;
+        }
+        .button-container {
+            margin-top: 60px; /* Increased from 40px to 60px */
+        }
+        .button {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 10px;
+            margin-top: 20px;
+            width: 80%;
+            max-width: 300px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            opacity: 0;
+        }
+        #typeInput {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="illustration"></div>
+        <p id="textLine1" class="text-line"></p>
+        <p id="textLine2" class="text-line"></p>
+        <p id="textLine3" class="text-line"></p>
+        <div class="button-container">
+            <input type="text" id="typeInput" class="button" placeholder="Type 'Yes, since when?'">
+            <button id="plainTextButton" class="button">You'll not be any wiser</button>
+        </div>
+    </div>
+
+    <script>
+        const textLine1 = document.getElementById('textLine1');
+        const textLine2 = document.getElementById('textLine2');
+        const textLine3 = document.getElementById('textLine3');
+        const typeInput = document.getElementById('typeInput');
+        const plainTextButton = document.getElementById('plainTextButton');
+
+        function showText(element, text, delay = 0) {
+            setTimeout(() => {
+                element.textContent = text;
+                element.classList.add('fade-in');
+            }, delay);
+        }
+
+        function showButtons(delay = 0) {
+            setTimeout(() => {
+                typeInput.classList.add('fade-in');
+                plainTextButton.classList.add('fade-in');
+            }, delay);
+        }
+
+        // Show the text lines in sequence
+        showText(textLine1, '"Come off it!"', 0);
+        showText(textLine2, '- piped the first pea.', 2000);
+        showText(textLine3, '"Since when were you able to analyse dreams?"', 4000);
+
+        // Show the buttons after 6 seconds
+        showButtons(6000);
+
+        // Check if the correct text is typed
+        typeInput.addEventListener('input', function() {
+            if (this.value.toLowerCase() === 'yes, since when?') {
+                window.location.href = 'page14.html';
+            }
+        });
+
+        // Navigate to page 14 when the plain text button is clicked
+        plainTextButton.addEventListener('click', function() {
+            window.location.href = 'page14.html';
+        });
+    </script>
+</body>
+</html>

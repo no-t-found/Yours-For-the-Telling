@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 5</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            cursor: none;
+        }
+        #custom-cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+        .fading {
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+        }
+        .fading span {
+            display: inline-block;
+            animation: fadeOut 5s forwards;
+            animation-delay: 2s;
+        }
+        .fading::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background-color: #0f0;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .fading:hover::after {
+            transform: scaleX(1);
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0.1; }
+        }
+        #continue-button {
+            margin-top: 2em;
+            padding: 0.5em 1em;
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <div class="illustration"></div>
+    <p>Their sleep was <span class="fading"><span>d</span><span>r</span><span>e</span><span>a</span><span>m</span><span>l</span><span>e</span><span>s</span><span>s</span></span>. The fact is that these creatures never dream.</p>
+    <button id="continue-button">Continue</button>
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+        const fadingWord = document.querySelector('.fading');
+        const continueButton = document.getElementById('continue-button');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Add a slight delay to each letter's fading animation
+        const fadingLetters = document.querySelectorAll('.fading span');
+        fadingLetters.forEach((letter, index) => {
+            letter.style.animationDelay = `${2 + index * 0.1}s`;
+        });
+
+        // Show the continue button after the fading animation
+        setTimeout(() => {
+            continueButton.style.display = 'inline-block';
+        }, 7000); // 7 seconds (2s delay + 5s animation)
+
+        fadingWord.addEventListener('click', () => {
+            window.location.href = 'page6.html';
+        });
+
+        continueButton.addEventListener('click', () => {
+            window.location.href = 'page7.html';
+        });
+    </script>
+</body>
+</html>

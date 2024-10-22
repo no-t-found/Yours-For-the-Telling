@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 11</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            cursor: none;
+            overflow: hidden;
+            position: relative;
+            transition: background-color 5s ease;
+        }
+
+        #custom-cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .horror-text {
+            font-family: 'Creepster', cursive;
+            font-size: 1.5em;
+            color: #ff0000;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .vetch-soup {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='none' stroke='%23ff0000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cpath d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3'%3E%3C/path%3E%3Cline x1='12' y1='17' x2='12' y2='17'%3E%3C/line%3E%3C/svg%3E") 20 20, help;
+        }
+
+        .awoke {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='none' stroke='%23ff0000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Ccircle cx='12' cy='12' r='4'%3E%3C/circle%3E%3Cline x1='12' y1='2' x2='12' y2='4'%3E%3C/line%3E%3Cline x1='12' y1='20' x2='12' y2='22'%3E%3C/line%3E%3Cline x1='2' y1='12' x2='4' y2='12'%3E%3C/line%3E%3Cline x1='20' y1='12' x2='22' y2='12'%3E%3C/line%3E%3C/svg%3E") 30 30, pointer;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .typing-text {
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            min-height: 3em; /* Adjust based on your font size and expected text length */
+        }
+
+        .typing-text::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .star, .blood-drop {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .star {
+            background-color: #0f0;
+            width: 3px;
+            height: 3px;
+            animation: twinkle 3s infinite;
+            box-shadow: 0 0 2px #0f0;
+        }
+
+        .blood-drop {
+            background-color: #ff0000;
+            width: 2px;
+            height: 2px;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        .text-container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .awake-text {
+            color: #ff0000;
+            font-size: 1.3em;
+            margin-top: 2em;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            width: 100%;
+            text-align: center;
+        }
+
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <div class="content-container">
+        <div class="illustration"></div>
+        <div class="text-container">
+            <p>They were dreaming they had gone to fetch their soup from the soup kitchen and,</p>
+            <p class="typing-text"></p>
+        </div>
+        <p class="awake-text">Sickened with horror, they <span class="awoke">awoke</span>.</p>
+    </div>
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+        const body = document.body;
+        const typingText = document.querySelector('.typing-text');
+        const awakeText = document.querySelector('.awake-text');
+        const awoke = document.querySelector('.awoke');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const text = "upon opening their billy-cans, discovered it to be <span class='horror-text vetch-soup'>vetch soup</span>...";
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                if (text.substring(i, i+6) === "<span ") {
+                    const endIndex = text.indexOf("</span>", i) + 7;
+                    typingText.innerHTML += text.substring(i, endIndex);
+                    i = endIndex;
+                } else {
+                    typingText.innerHTML += text.charAt(i);
+                    i++;
+                }
+                setTimeout(typeWriter, 100);
+            } else {
+                typingText.style.borderRight = 'none';
+            }
+        }
+
+        setTimeout(typeWriter, 2000);
+
+        function createStars() {
+            const numStars = 100;
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                const size = Math.random() * 2 + 2;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                body.appendChild(star);
+            }
+        }
+
+        function createBloodDrops() {
+            const numDrops = 50;
+            for (let i = 0; i < numDrops; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'blood-drop';
+                drop.style.left = `${Math.random() * 100}%`;
+                drop.style.animationDelay = `${Math.random() * 4}s`;
+                body.appendChild(drop);
+            }
+        }
+
+        createStars();
+
+        setTimeout(() => {
+            body.style.backgroundColor = '#200000';
+            document.querySelectorAll('.star').forEach(star => star.remove());
+            createBloodDrops();
+            awakeText.style.opacity = '1';
+        }, 10000);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            function makeVetchSoupClickable() {
+                const vetchSoupSpan = document.querySelector('.horror-text.vetch-soup');
+                if (vetchSoupSpan) {
+                    vetchSoupSpan.style.cursor = 'pointer';
+                    vetchSoupSpan.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        window.open('https://www.oxfordlearnersdictionaries.com/definition/english/vetch', '_blank');
+                    });
+                }
+            }
+
+            // Call this function after the typing animation is complete
+            setTimeout(makeVetchSoupClickable, 12000); // Increased timeout to ensure text is fully typed
+        });
+
+        awoke.addEventListener('click', () => {
+            let opacity = 1;
+            const fadeInterval = setInterval(() => {
+                opacity -= 0.02; // Reduced from 0.1 to 0.02 for a slower fade
+                body.style.backgroundColor = `rgba(32, 0, 0, ${opacity})`;
+                if (opacity <= 0) {
+                    clearInterval(fadeInterval);
+                    window.location.href = 'page12.html';
+                }
+            }, 50); // Changed from 100ms to 50ms to smooth out the transition
+        });
+    </script>
+</body>
+</html>

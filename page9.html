@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 9</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            cursor: none;
+        }
+        #custom-cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+        .dragging {
+            display: inline-block;
+        }
+        .dragging span {
+            display: inline-block;
+            opacity: 0;
+            animation: dragIn 3s forwards;
+        }
+        @keyframes dragIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .typing-container {
+            margin-top: 2em;
+            height: 1.5em;
+            font-size: 1.2em;
+        }
+
+        .typing-text {
+            display: inline-block;
+            overflow: hidden;
+            border-right: 0.15em solid #0f0;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 0.15em;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #0f0; }
+        }
+
+        #user-input {
+            margin-top: 1em;
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 0.5em;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            width: 100px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <div class="illustration"></div>
+    <p>Once upon a time there were three wee peas who travelled the open road. In the evening, <span class="dragging"><span>f</span><span>o</span><span>o</span><span>t</span><span>-</span><span>s</span><span>o</span><span>r</span><span>e</span> <span>a</span><span>n</span><span>d</span> <span>w</span><span>e</span><span>a</span><span>r</span><span>y</span></span>, they would drop off to sleep in no time at all.</p>
+    <div class="typing-container">
+        <div class="typing-text"></div>
+    </div>
+    <input type="text" id="user-input" placeholder="Yes or No" maxlength="3">
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+        const typingText = document.querySelector('.typing-text');
+        const userInput = document.getElementById('user-input');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Trigger the dragging animation after a short delay
+        setTimeout(() => {
+            const draggingLetters = document.querySelectorAll('.dragging span');
+            draggingLetters.forEach((letter, index) => {
+                letter.style.animationDelay = `${index * 0.1}s`;
+            });
+        }, 1000);
+
+        // Trigger the typing effect after a longer delay
+        setTimeout(() => {
+            const question = "Do you wish to know what happened next?";
+            let i = 0;
+            function typeWriter() {
+                if (i < question.length) {
+                    typingText.innerHTML += question.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                } else {
+                    // Show the input field after the question is fully typed
+                    setTimeout(() => {
+                        userInput.style.display = 'inline-block';
+                        userInput.focus();
+                    }, 500);
+                }
+            }
+            typeWriter();
+        }, 5000); // 5 seconds delay
+
+        userInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                const answer = this.value.trim().toLowerCase();
+                if (answer === 'yes') {
+                    window.location.href = 'page5.html';
+                } else if (answer === 'no') {
+                    window.location.href = 'page21.html';
+                } else {
+                    alert('Please enter Yes or No');
+                    this.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

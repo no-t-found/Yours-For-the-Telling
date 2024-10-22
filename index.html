@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: none;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+        #telling {
+            position: relative;
+            cursor: none;
+            display: inline-block;
+        }
+        #progress-bar {
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            height: 2px;
+            background-color: #0f0;
+            width: 0;
+            transition: width 3s linear;
+        }
+        #custom-cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <h1>Yours for the <span id="telling">Telling<div id="progress-bar"></div></span></h1>
+    <p>Raymond Queneau, 1967</p>
+
+    <script>
+        const telling = document.getElementById('telling');
+        const progressBar = document.getElementById('progress-bar');
+        let hoverTimer;
+
+        // Custom cursor
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        telling.addEventListener('mouseenter', () => {
+            progressBar.style.width = '100%';
+            hoverTimer = setTimeout(() => {
+                window.location.href = 'page1.html';
+            }, 3000);
+        });
+
+        telling.addEventListener('mouseleave', () => {
+            progressBar.style.width = '0';
+            clearTimeout(hoverTimer);
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var attribution = document.createElement('div');
+            attribution.style.textAlign = 'center';
+            attribution.style.position = 'fixed';
+            attribution.style.bottom = '30px'; // Increased from 10px to 30px
+            attribution.style.left = '0';
+            attribution.style.right = '0';
+            attribution.style.fontSize = '0.8em';
+            attribution.style.color = '#0f0';
+            attribution.textContent = 'By Carolina Santos';
+            document.body.appendChild(attribution);
+        });
+    </script>
+</body>
+</html>

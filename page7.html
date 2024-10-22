@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 7</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            cursor: none;
+            overflow: hidden;
+            position: relative;
+        }
+        #custom-cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+            z-index: 1;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+            z-index: 1;
+        }
+        .star {
+            position: absolute;
+            background-color: #0f0;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 3s infinite;
+            box-shadow: 0 0 2px #0f0;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+        .draggable {
+            cursor: move;
+        }
+        .drop-zone {
+            display: none;
+            border-bottom: 1px solid #0f0;
+            width: 40px; /* Adjust as needed */
+            height: 1.2em; /* Match the line height of your text */
+            margin-bottom: -5px; /* Adjust to align with text */
+            position: absolute;
+            left: 0;
+        }
+        #blue-word {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2em;
+            z-index: 2;
+            font-weight: bold;
+            color: rgb(0, 149, 255);
+        }
+        #black-word {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        #second-line {
+            display: none;
+            border-bottom: 1px solid #0f0;
+            width: 40px; /* Adjust as needed */
+            height: 1.2em;
+            margin-top: 5px; /* Space between lines */
+        }
+        #black-container {
+            position: relative;
+            display: inline-block;
+        }
+        #arrow {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) rotate(-45deg);
+            font-size: 48px;
+            color: #0f0;
+            cursor: pointer;
+            display: none;
+            margin-top: 40px; /* Adjust this value to position the arrow below the text */
+        }
+        #content {
+            position: relative;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <div class="illustration"></div>
+    <div id="content">
+        <p>
+            Their cute little tootsies were muffled in cozy<br>
+            socks, and they wore <span id="black-container"><span id="black-word">black</span><span id="drop-zone" class="drop-zone"></span></span> velvet<br>
+            mittens in bed.
+        </p>
+        <div id="arrow" style="display: none;">➔</div>
+    </div>
+
+    <div id="blue-word" draggable="true" style="display: none; color: blue; cursor: move;">blue</div>
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Create shimmering stars
+        function createStars() {
+            const numStars = 100;
+            const body = document.body;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                
+                // Randomly assign different sizes to stars
+                const size = Math.random() * 2 + 2; // Random size between 2px and 4px
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                body.appendChild(star);
+            }
+        }
+
+        createStars();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const blackContainer = document.getElementById('black-container');
+            const blackWord = document.getElementById('black-word');
+            const dropZone = document.getElementById('drop-zone');
+            const blueWord = document.getElementById('blue-word');
+            const arrow = document.getElementById('arrow');
+
+            blackWord.addEventListener('click', () => {
+                dropZone.style.display = 'inline-block';
+                blueWord.style.display = 'block';
+                arrow.style.display = 'block'; // Show the arrow
+            });
+
+            blueWord.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.id);
+            });
+
+            document.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            document.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (e.target.className === 'drop-zone') {
+                    const data = e.dataTransfer.getData('text');
+                    if (data === 'blue-word') {
+                        blackWord.textContent = 'blue';
+                        blackWord.style.color = 'blue';
+                        dropZone.style.display = 'none';
+                        blueWord.style.display = 'none';
+                        setTimeout(() => {
+                            window.location.href = 'page8.html';
+                        }, 500);
+                    }
+                }
+            });
+
+            // Add click event for the arrow
+            arrow.addEventListener('click', () => {
+                window.location.href = 'page10.html';
+            });
+        });
+    </script>
+</body>
+</html>

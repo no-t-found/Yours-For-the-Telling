@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 14</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        #container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        #illustration {
+            width: 300px;
+            height: 200px;
+            border: 2px solid #0f0;
+            margin: 0 auto 20px;
+        }
+        #text-container {
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+        .fade-out {
+            animation: fadeOut 2s ease-in-out forwards;
+        }
+        .text-line {
+            min-height: 1.2em;
+            opacity: 0;
+            margin: 5px 0;
+        }
+        #hiddenButton {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 10px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #hiddenButton:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+        #buttonArea {
+            width: 200px;
+            height: 50px;
+            position: relative;
+            margin-top: 20px;
+        }
+        #hiddenButton {
+            background-color: #000;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            cursor: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #customCursor {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #0f0;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="illustration"></div>
+        <div id="text-container">
+            <p id="textLine1" class="text-line"></p>
+            <p id="textLine2" class="text-line"></p>
+            <p id="textLine3" class="text-line"></p>
+            <p id="textLine4" class="text-line"></p>
+            <p id="textLine5" class="text-line"></p>
+        </div>
+        <div id="buttonArea">
+            <button id="hiddenButton">I wish to see</button>
+        </div>
+    </div>
+    <script>
+        const textLines = [
+            document.getElementById('textLine1'),
+            document.getElementById('textLine2'),
+            document.getElementById('textLine3'),
+            document.getElementById('textLine4'),
+            document.getElementById('textLine5')
+        ];
+
+        function showText(element, text, delay = 0) {
+            setTimeout(() => {
+                element.textContent = text;
+                element.classList.add('fade-in');
+            }, delay);
+        }
+
+        function hideText(element, delay = 0) {
+            setTimeout(() => {
+                element.classList.remove('fade-in');
+                element.classList.add('fade-out');
+            }, delay);
+        }
+
+        // Show the text lines in sequence
+        showText(textLines[0], '"Since when?"', 0);
+        showText(textLines[1], '- cried the third pea.', 2000);
+        showText(textLines[2], '"How should I know?"', 4000);
+
+        // Hide the first three lines
+        setTimeout(() => {
+            hideText(textLines[0]);
+            hideText(textLines[1]);
+            hideText(textLines[2]);
+
+            // Show the last two lines
+            setTimeout(() => {
+                showText(textLines[3], '"The fact is, I analyse them, OK?"', 0);
+                showText(textLines[4], '"You\'ll soon see!"', 2000);
+            }, 2000);
+        }, 8000);
+
+        const hiddenButton = document.getElementById('hiddenButton');
+        const buttonArea = document.getElementById('buttonArea');
+        const customCursor = document.createElement('div');
+        customCursor.id = 'customCursor';
+        document.body.appendChild(customCursor);
+
+        let buttonText = "I wish to see";
+
+        document.addEventListener('mousemove', (e) => {
+            const rect = buttonArea.getBoundingClientRect();
+            if (
+                e.clientX >= rect.left &&
+                e.clientX <= rect.right &&
+                e.clientY >= rect.top &&
+                e.clientY <= rect.bottom
+            ) {
+                customCursor.style.opacity = '1';
+                hiddenButton.style.color = '#0f0';
+            } else {
+                customCursor.style.opacity = '0';
+                hiddenButton.style.color = '#000';
+            }
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top = e.clientY + 'px';
+        });
+
+        hiddenButton.addEventListener('click', () => {
+            window.location.href = 'page15.html';
+        });
+
+        buttonArea.addEventListener('mouseenter', () => {
+            buttonText = buttonText === "I wish to see" ? "I won't see a thing" : "I wish to see";
+            hiddenButton.textContent = buttonText;
+        });
+    </script>
+</body>
+</html>

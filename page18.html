@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 18</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+        .button-container {
+            margin-top: 2em;
+        }
+        button {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        button:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+        .run-away {
+            cursor: pointer;
+            display: inline-block;
+        }
+        .run-away span {
+            display: inline-block;
+            transition: transform 1.5s ease-in-out, opacity 1.5s ease-in-out;
+            margin: 0 2px;
+        }
+        .run-away.active span {
+            transform: translate(1500px, 0);
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="illustration"></div>
+    <p>Observing that they were being ogled, the three sprightly peas, who were very bashful, <span class="run-away" id="runAway">took to their heels</span>.</p>
+    <div class="button-container">
+        <button onclick="window.location.href='page21.html'">It's immaterial</button>
+    </div>
+    <script>
+        const runAway = document.getElementById('runAway');
+        
+        runAway.innerHTML = runAway.textContent.split('').map(char => 
+            `<span style="display: inline-block;">${char}</span>`
+        ).join('');
+
+        runAway.addEventListener('click', () => {
+            runAway.classList.add('active');
+            setTimeout(() => {
+                window.location.href = 'page19.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

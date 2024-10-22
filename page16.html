@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 16</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+        .button-container {
+            margin-top: 2em;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        button {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        button:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+        .highlight {
+            background-color: #0f0;
+            color: #000;
+            cursor: pointer;
+            padding: 0 5px;
+            font-weight: bold;
+        }
+        .highlight:hover {
+            text-decoration: none;
+        }
+        .illustration-container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin-bottom: 2em;
+        }
+
+        .illustration {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #0f0;
+        }
+
+        .cross {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+            color: #0f0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="illustration-container">
+        <div class="illustration"></div>
+        <div class="cross">✕</div>
+    </div>
+    <p>
+        <span class="highlight" id="changingText">Three tall, lanky beanpoles</span><br>
+        were watching them.
+    </p>
+    <div class="button-container">
+        <button onclick="window.location.href='page18.html'">I like the look of them</button>
+    </div>
+    <script>
+        const changingText = document.getElementById('changingText');
+        const originalText = changingText.textContent;
+        const alternateText = "Three rather common or garden shrubs";
+
+        changingText.addEventListener('mouseover', () => {
+            changingText.textContent = alternateText;
+        });
+
+        changingText.addEventListener('mouseout', () => {
+            changingText.textContent = originalText;
+        });
+
+        changingText.addEventListener('click', () => {
+            window.location.href = 'page17.html';
+        });
+
+        // New interaction for the illustration
+        const illustrationContainer = document.querySelector('.illustration-container');
+        const cross = document.querySelector('.cross');
+
+        illustrationContainer.addEventListener('mouseover', () => {
+            cross.style.opacity = '1';
+        });
+
+        illustrationContainer.addEventListener('mouseout', () => {
+            cross.style.opacity = '0';
+        });
+
+        illustrationContainer.addEventListener('click', () => {
+            window.location.href = 'page21.html';
+        });
+
+        // Delay the appearance of the button
+        setTimeout(() => {
+            document.querySelector('.button-container').style.opacity = '1';
+        }, 3000); // 3 seconds delay
+    </script>
+</body>
+</html>

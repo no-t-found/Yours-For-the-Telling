@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 6</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            cursor: none;
+            overflow: hidden;
+            position: relative;
+        }
+        #custom-cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+            z-index: 1;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+            z-index: 1;
+        }
+        .star {
+            position: absolute;
+            background-color: #0f0;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 3s infinite;
+            box-shadow: 0 0 2px #0f0;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        .button-container {
+            margin-top: 2em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1em;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .shine-button {
+            padding: 0.5em 1em;
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(15, 255, 15, 0.3) 0%,
+                rgba(15, 255, 15, 0.1) 50%,
+                rgba(15, 255, 15, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <div class="illustration"></div>
+    <p>They were dreaming. The fact is these little creatures are always dreaming, and their nights are quite deliciously oneiric.</p>
+    <div class="button-container">
+        <button class="shine-button" id="dream-button">What were they dreaming?</button>
+        <button class="shine-button" id="ignore-button">It's neither here nor there to you</button>
+    </div>
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Create shimmering stars
+        function createStars() {
+            const numStars = 100;
+            const body = document.body;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                
+                // Randomly assign different sizes to stars
+                const size = Math.random() * 2 + 2; // Random size between 2px and 4px
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                body.appendChild(star);
+            }
+        }
+
+        createStars();
+
+        const buttonContainer = document.querySelector('.button-container');
+        const dreamButton = document.getElementById('dream-button');
+        const ignoreButton = document.getElementById('ignore-button');
+
+        // Show buttons after a delay
+        setTimeout(() => {
+            buttonContainer.style.opacity = '1';
+        }, 5000); // 5 seconds delay
+
+        dreamButton.addEventListener('click', () => {
+            window.location.href = 'page11.html';
+        });
+
+        ignoreButton.addEventListener('click', () => {
+            window.location.href = 'page7.html';
+        });
+    </script>
+</body>
+</html>

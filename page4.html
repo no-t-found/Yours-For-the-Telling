@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 4</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            cursor: none;
+        }
+        #custom-cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+        .breathing {
+            display: inline-block;
+            animation: breathe 4s ease-in-out infinite;
+        }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .wavy {
+            display: inline-block;
+        }
+        .wavy span {
+            display: inline-block;
+            animation: wave 2s ease-in-out infinite;
+        }
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .wavy span:nth-child(2n) {
+            animation-delay: 0.1s;
+        }
+        .wavy span:nth-child(3n) {
+            animation-delay: 0.2s;
+        }
+        #next-button {
+            margin-top: 2em;
+            padding: 0.5em 1em;
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+        }
+
+        #arrow {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #green-strip {
+            position: fixed;
+            top: 50%;
+            right: -100%;
+            width: 100%;
+            height: 20px;
+            background-color: #0f0;
+            transition: right 1s linear;
+        }
+
+        #road {
+            position: fixed;
+            top: 50%;
+            right: -100%;
+            width: 100%;
+            height: 40px;
+            background-color: #0f0;
+            transition: right 2s linear;
+            overflow: hidden;
+        }
+
+        #road::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: repeating-linear-gradient(
+                to right,
+                #000 0,
+                #000 20px,
+                transparent 20px,
+                transparent 40px
+            );
+            animation: moveStripes 0.5s linear infinite;
+        }
+
+        @keyframes moveStripes {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-40px); }
+        }
+
+        #car {
+            position: absolute;
+            top: 50%;
+            left: -50px;
+            width: 30px;
+            height: 20px;
+            background-color: #000;
+            border-radius: 5px;
+            transform: translateY(-50%);
+            animation: moveCar 2s linear;
+        }
+
+        @keyframes moveCar {
+            0% { left: -50px; }
+            100% { left: calc(100% + 50px); }
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <div id="road"><div id="car"></div></div>
+    <div class="illustration"></div>
+    <p>Once upon a time, there were three wee pees dressed in green <span class="wavy"><span>d</span><span>o</span><span>z</span><span>i</span><span>n</span><span>g</span> <span>c</span><span>o</span><span>s</span><span>i</span><span>l</span><span>y</span></span> in their pod. They had chubby, moon-shaped faces and breathed through their funny little nozzles, <span class="breathing">snoring softly</span> and euphoniously.</p>
+    <button id="next-button">This one will do you</button>
+    <div id="arrow">←</div>
+    <audio id="car-sound" src="car-passing.mp3"></audio>
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+        const nextButton = document.getElementById('next-button');
+        const arrow = document.getElementById('arrow');
+        const greenStrip = document.getElementById('green-strip');
+        const road = document.getElementById('road');
+        const car = document.getElementById('car');
+        const carSound = document.getElementById('car-sound');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        nextButton.addEventListener('click', () => {
+            window.location.href = 'page5.html';
+        });
+
+        arrow.addEventListener('click', () => {
+            road.style.right = '0';
+            car.style.display = 'block';
+            carSound.play();
+            setTimeout(() => {
+                window.location.href = 'page9.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

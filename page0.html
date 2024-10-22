@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Choose Your Tale</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        #custom-cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .choice-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 2em;
+        }
+        .choice {
+            width: 30%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .illustration {
+            width: 100%;
+            height: 150px;
+            border: 1px solid #0f0;
+            margin-bottom: 1em;
+        }
+        #none-button {
+            margin-top: 2em;
+            padding: 0.5em 1em;
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <div class="choice-container">
+        <div class="choice">
+            <div class="illustration"></div>
+            <p>1. Would you like to read the tale of the three sprightly peas?</p>
+        </div>
+        <div class="choice">
+            <div class="illustration"></div>
+            <p>2. Would you prefer the tale of the three tall, lanky beanpoles?</p>
+        </div>
+        <div class="choice">
+            <div class="illustration"></div>
+            <p>3. Would you rather read the one about the three rather common or garden shrubs?</p>
+        </div>
+    </div>
+    <button id="none-button">None</button>
+
+    <script>
+        // Custom cursor
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // None button functionality
+        const noneButton = document.getElementById('none-button');
+        noneButton.addEventListener('click', () => {
+            window.location.href = 'page21.html';
+        });
+    </script>
+</body>
+</html>

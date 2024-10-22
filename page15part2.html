@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 15 Part 2</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        #container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #illustration {
+            width: 300px;
+            height: 200px;
+            border: 2px solid #0f0;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+        #text-container {
+            height: 150px; /* Adjust as needed */
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes slowFade {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+        .fade-out {
+            animation: fadeOut 2s ease-in-out forwards;
+        }
+        .slow-fade {
+            animation: slowFade 4s ease-in-out infinite;
+        }
+        .text-line {
+            position: absolute;
+            opacity: 0;
+            max-width: 600px;
+        }
+        #icon-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #0f0;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        #icon-container div {
+            text-align: center;
+            line-height: 1;
+        }
+        .clickable {
+            cursor: pointer;
+            text-decoration: underline;
+            color: #0f0;
+        }
+        .clickable:hover {
+            color: #0ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="illustration"></div>
+        <div id="text-container">
+            <p id="textLine1" class="text-line"></p>
+            <p id="textLine2" class="text-line"></p>
+            <p id="textLine3" class="text-line"></p>
+            <p id="textLine4" class="text-line"></p>
+        </div>
+    </div>
+
+    <div id="icon-container">
+        <div>☻</div>
+        <div>︼</div>
+    </div>
+
+    <script>
+        const illustration = document.getElementById('illustration');
+        const textLines = document.querySelectorAll('.text-line');
+
+        function showText(element, text, delay = 0, callback = null) {
+            setTimeout(() => {
+                element.textContent = text;
+                element.classList.remove('fade-out');
+                element.classList.add('fade-in');
+                if (callback) setTimeout(callback, 2000);
+            }, delay);
+        }
+
+        function hideText(element, delay = 0, callback = null) {
+            setTimeout(() => {
+                element.classList.remove('fade-in');
+                element.classList.add('fade-out');
+                if (callback) setTimeout(callback, 2000);
+            }, delay);
+        }
+
+        function showIcons() {
+            document.getElementById('icon-container').style.opacity = '1';
+        }
+
+        document.getElementById('icon-container').addEventListener('click', function() {
+            window.location.href = 'page21.html';
+        });
+
+        // First text
+        showText(textLines[0], "Besides, hasn't your feeling of horror dimmed and even ", 0, () => {
+            const fadedText = document.createElement('span');
+            fadedText.textContent = "faded quite away";
+            fadedText.classList.add('slow-fade');
+            textLines[0].appendChild(fadedText);
+            textLines[0].innerHTML += " since this rather heated exchange began?";
+        });
+
+        // Hide first text and show second
+        setTimeout(() => {
+            hideText(textLines[0], 0, () => {
+                showText(textLines[1], "So why bother to stir up the sink of your leguminous unconscious?");
+            });
+        }, 8000);
+
+        // Modify the click event listener for the illustration
+        illustration.addEventListener('click', () => {
+            hideText(textLines[1], 0, () => {
+                showText(textLines[2], "Let's go and bathe in the fountain, rather, and greet this bright morning in that state of holy euphoria that is hygiene's own reward!", 0, () => {
+                    setTimeout(() => {
+                        hideText(textLines[2], 0, () => {
+                            showText(textLines[3], "No sooner said that done.", 0, () => {
+                                setTimeout(() => {
+                                    hideText(textLines[3], 0, () => {
+                                        setTimeout(() => {
+                                            const lastLine = document.createElement('p');
+                                            lastLine.classList.add('text-line', 'fade-in');
+                                            lastLine.innerHTML = 'Slipping out of their pod, they rolled downhill and scampered merrily off to the <span class="clickable">theatre of their ablutions</span>.';
+                                            textLines[3].parentNode.appendChild(lastLine);
+                                            
+                                            // Make "theatre of their ablutions" clickable
+                                            const clickableSpan = lastLine.querySelector('.clickable');
+                                            clickableSpan.style.cursor = 'pointer';
+                                            clickableSpan.style.textDecoration = 'underline';
+                                            clickableSpan.addEventListener('click', () => {
+                                                window.location.href = 'page16.html';
+                                            });
+
+                                            // Show the icons after the last line appears
+                                            setTimeout(showIcons, 2000);
+                                        }, 1000);  // Short delay after hiding "No sooner said that done"
+                                    });
+                                }, 4000);
+                            });
+                        });
+                    }, 6000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

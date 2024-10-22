@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 15</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #000;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            cursor: none;
+        }
+        #container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+        #illustration {
+            width: 300px;
+            height: 200px;
+            border: 2px solid #0f0;
+            margin: 20px auto;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+        .fade-out {
+            animation: fadeOut 2s ease-in-out forwards;
+        }
+        .text-line {
+            min-height: 1.2em;
+            opacity: 0;
+            position: relative;
+        }
+        #customCursor {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.5);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        #hiddenArrow {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 20px solid #000;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            transition: border-top-color 0.3s;
+        }
+        #hiddenArrow:hover {
+            border-top-color: #0f0;
+        }
+    </style>
+</head>
+<body>
+    <div id="customCursor"></div>
+    <div id="container">
+        <div id="illustration"></div>
+        <p id="textLine1" class="text-line"></p>
+        <p id="textLine2" class="text-line"></p>
+        <p id="textLine3" class="text-line"></p>
+        <p id="textLine4" class="text-line"></p>
+        <p id="textLine5" class="text-line"></p>
+        <div id="hiddenArrow"></div>
+    </div>
+
+    <script>
+        const customCursor = document.getElementById('customCursor');
+        const textLines = document.querySelectorAll('.text-line');
+        const hiddenArrow = document.getElementById('hiddenArrow');
+        
+        document.addEventListener('mousemove', (e) => {
+            customCursor.style.left = e.clientX - 20 + 'px';
+            customCursor.style.top = e.clientY - 20 + 'px';
+            
+            textLines.forEach(line => {
+                const rect = line.getBoundingClientRect();
+                if (e.clientX >= rect.left && e.clientX <= rect.right &&
+                    e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                    line.style.color = '#0f0';
+                } else {
+                    line.style.color = '#000';
+                }
+            });
+
+            const arrowRect = hiddenArrow.getBoundingClientRect();
+            if (e.clientX >= arrowRect.left && e.clientX <= arrowRect.right &&
+                e.clientY >= arrowRect.top && e.clientY <= arrowRect.bottom) {
+                hiddenArrow.style.borderTopColor = '#0f0';
+            } else {
+                hiddenArrow.style.borderTopColor = '#000';
+            }
+        });
+
+        function showText(element, text, delay = 0) {
+            setTimeout(() => {
+                element.textContent = text;
+                element.classList.add('fade-in');
+            }, delay);
+        }
+
+        function hideText(element) {
+            element.classList.remove('fade-in');
+            element.classList.add('fade-out');
+        }
+
+        // Show the text lines in sequence
+        showText(textLines[0], '"OK, let\'s see!"', 0);
+        showText(textLines[1], '- said his brothers.', 2000);
+        showText(textLines[2], '"I don\'t care much for your irony,"', 4000);
+        showText(textLines[3], '- the other replied.', 6000);
+        showText(textLines[4], '"you shan\'t see a thing."', 8000);
+
+        // Hide all text and navigate to page15part2.html when hidden arrow is clicked
+        hiddenArrow.addEventListener('click', () => {
+            textLines.forEach(line => hideText(line));
+            setTimeout(() => {
+                window.location.href = 'page15part2.html';
+            }, 2000); // Wait for 2 seconds (duration of fade-out animation) before navigating
+        });
+    </script>
+</body>
+</html>

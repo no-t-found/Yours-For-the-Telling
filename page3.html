@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours for the Telling - Page 3</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            cursor: none;
+        }
+        #custom-cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 255, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .illustration {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+        .interactive {
+            cursor: pointer;
+        }
+        #read {
+            text-decoration: underline;
+            color: #0f0;
+        }
+        #shrubs {
+            background-color: #0f0;
+            color: #000;
+            padding: 2px 4px;
+            font-weight: normal;
+            transition: font-weight 0.3s;
+        }
+        #shrubs:hover {
+            font-weight: bold;
+        }
+        #no-button {
+            margin-top: 2em;
+            padding: 0.5em 1em;
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-cursor"></div>
+    <div class="illustration"></div>
+    <p>Would you rather <span class="interactive" id="read">read</span> the one about the <span class="interactive" id="shrubs">three rather common or garden shrubs</span>?</p>
+    <button id="no-button">No</button>
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+        const readSpan = document.getElementById('read');
+        const shrubsSpan = document.getElementById('shrubs');
+        const noButton = document.getElementById('no-button');
+        const originalText = shrubsSpan.textContent;
+        const alternateText = "three tall, lanky beanpoles";
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        readSpan.addEventListener('click', () => {
+            window.location.href = 'page17.html';
+        });
+
+        shrubsSpan.addEventListener('mouseenter', () => {
+            shrubsSpan.textContent = alternateText;
+            shrubsSpan.style.fontWeight = 'bold';
+        });
+
+        shrubsSpan.addEventListener('mouseleave', () => {
+            shrubsSpan.textContent = originalText;
+            shrubsSpan.style.fontWeight = 'normal';
+        });
+
+        shrubsSpan.addEventListener('click', () => {
+            window.location.href = 'page1.html';
+        });
+
+        noButton.addEventListener('click', () => {
+            window.location.href = 'page21.html';
+        });
+    </script>
+</body>
+</html>
