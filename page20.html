@@ -35,6 +35,7 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+
         }
         .illustration {
             width: 300px;
@@ -64,6 +65,9 @@
             z-index: 1;
             opacity: 0;
             transition: opacity 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         button {
             background-color: rgba(0,0,0,0.8);
@@ -74,10 +78,35 @@
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
             font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10px;
+            width: 200px;
         }
         button:hover {
             background-color: #0f0;
             color: #000;
+        }
+        button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% {
+                top: -50%;
+                left: -50%;
+            }
+            100% {
+                top: 150%;
+                left: 150%;
+            }
         }
         #confetti-canvas {
             position: fixed;
@@ -93,128 +122,139 @@
 <body>
     <div class="background"></div>
     <canvas id="confetti-canvas"></canvas>
-    <div class="illustration" id="illustrationFrame"></div>
+    <div class="illustration">
+        <img src="Gifs/Yours-for-the-Telling_Thank-you-for-Playing.gif" alt="Ending" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+    </div>
     <div id="typed-text"></div>
     <div class="button-container">
         <button id="downloadButton">Keep the ending</button>
+        <a id="downloadLink" style="display: none;" download="Yours-for-the-Telling_Thank-you-for-Playing.gif">Download GIF</a>
+        <button id="restartButton" onclick="window.location.href='index.html'">Restart</button>
     </div>
+    <div id="custom-cursor"></div>
 
     <script>
-        // Illustration and download code (unchanged)
-        const illustrations = [
-            'path/to/illustration1.jpg',
-            'path/to/illustration2.jpg',
-            'path/to/illustration3.jpg'
-        ];
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded');
 
-        let currentIllustration = 0;
-        const illustrationFrame = document.getElementById('illustrationFrame');
-        const downloadButton = document.getElementById('downloadButton');
-        const typedText = document.getElementById('typed-text');
-        const buttonContainer = document.querySelector('.button-container');
+            const typedText = document.getElementById('typed-text');
+            const buttonContainer = document.querySelector('.button-container');
+            const downloadButton = document.getElementById('downloadButton');
 
-        illustrationFrame.addEventListener('click', () => {
-            currentIllustration = (currentIllustration + 1) % illustrations.length;
-            illustrationFrame.innerHTML = `<img src="${illustrations[currentIllustration]}" alt="Illustration ${currentIllustration + 1}" style="max-width: 100%; max-height: 100%;">`;
-        });
+            console.log('typedText element:', typedText);
+            console.log('buttonContainer element:', buttonContainer);
 
-        downloadButton.addEventListener('click', () => {
-            // Download code (unchanged)
-        });
-
-        function urlToPromise(url) {
-            // urlToPromise function (unchanged)
-        }
-
-        window.onload = () => {
-            illustrationFrame.innerHTML = `<img src="${illustrations[0]}" alt="Illustration 1" style="max-width: 100%; max-height: 100%;">`;
-            typeText("There is no sequel. The tale is finished. Finished!");
-        };
-
-        function typeText(text) {
-            let i = 0;
-            function type() {
-                if (i < text.length) {
-                    typedText.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, 50);
-                } else {
-                    buttonContainer.style.opacity = 1;
+            function typeText(text) {
+                console.log('typeText function called with:', text);
+                let i = 0;
+                typedText.innerHTML = ''; // Clear any existing text
+                function type() {
+                    if (i < text.length) {
+                        typedText.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, 50);
+                    } else {
+                        console.log('Typing finished, showing button');
+                        buttonContainer.style.opacity = 1;
+                    }
                 }
-            }
-            type();
-        }
-
-        // Colorful glitchy confetti effect
-        const canvas = document.getElementById('confetti-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const confettiColors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#8b00ff'];
-        const confettiCount = 100;
-        const confetti = [];
-
-        class GlitchyConfetti {
-            constructor() {
-                this.reset();
-                this.y = Math.random() * canvas.height;
+                type();
             }
 
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = -10;
-                this.size = Math.random() * 5 + 2;
-                this.speed = Math.random() * 2 + 1;
-                this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-                this.glitchCounter = 0;
-                this.glitchFrequency = Math.random() * 100 + 50;
-            }
+            // Start the typing animation
+            typeText("There is no sequel. The tale is finished. Finished! Thank you for playing.");
 
-            update() {
-                this.y += this.speed;
-                if (this.y > canvas.height) {
+            downloadButton.addEventListener('click', () => {
+                const gifSrc = document.querySelector('.illustration img').src;
+                const downloadLink = document.getElementById('downloadLink');
+                downloadLink.href = gifSrc;
+                downloadLink.click();
+            });
+
+            // Colorful glitchy confetti effect
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const confettiColors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#8b00ff'];
+            const confettiCount = 100;
+            const confetti = [];
+
+            class GlitchyConfetti {
+                constructor() {
                     this.reset();
+                    this.y = Math.random() * canvas.height;
                 }
 
-                this.glitchCounter++;
-                if (this.glitchCounter > this.glitchFrequency) {
-                    this.glitch();
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = -10;
+                    this.size = Math.random() * 5 + 2;
+                    this.speed = Math.random() * 2 + 1;
+                    this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
                     this.glitchCounter = 0;
                     this.glitchFrequency = Math.random() * 100 + 50;
                 }
+
+                update() {
+                    this.y += this.speed;
+                    if (this.y > canvas.height) {
+                        this.reset();
+                    }
+
+                    this.glitchCounter++;
+                    if (this.glitchCounter > this.glitchFrequency) {
+                        this.glitch();
+                        this.glitchCounter = 0;
+                        this.glitchFrequency = Math.random() * 100 + 50;
+                    }
+                }
+
+                glitch() {
+                    this.x += (Math.random() - 0.5) * 10;
+                    this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                    this.size = Math.random() * 5 + 2;
+                }
+
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(this.x, this.y, this.size, this.size);
+                }
             }
 
-            glitch() {
-                this.x += (Math.random() - 0.5) * 10;
-                this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-                this.size = Math.random() * 5 + 2;
+            for (let i = 0; i < confettiCount; i++) {
+                confetti.push(new GlitchyConfetti());
             }
 
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.fillRect(this.x, this.y, this.size, this.size);
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti.forEach(c => {
+                    c.update();
+                    c.draw();
+                });
+                requestAnimationFrame(animate);
             }
-        }
 
-        for (let i = 0; i < confettiCount; i++) {
-            confetti.push(new GlitchyConfetti());
-        }
+            animate();
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            confetti.forEach(c => {
-                c.update();
-                c.draw();
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
             });
-            requestAnimationFrame(animate);
-        }
 
-        animate();
+            // Log the full GIF URL
+            console.log('Full GIF URL:', new URL(gifSrc, window.location.href).href);
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            // Custom cursor code
+            const customCursor = document.getElementById('custom-cursor');
+            
+            document.addEventListener('mousemove', (e) => {
+                customCursor.style.left = e.clientX + 'px';
+                customCursor.style.top = e.clientY + 'px';
+            });
+
+            document.body.style.cursor = 'none';
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>

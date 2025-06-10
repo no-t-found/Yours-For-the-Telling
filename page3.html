@@ -33,6 +33,15 @@
             height: 200px;
             border: 1px solid #0f0;
             margin-bottom: 2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .illustration img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
         p {
             font-size: 1.2em;
@@ -65,11 +74,28 @@
             font-family: 'Courier New', monospace;
             font-size: 1em;
         }
+        @media screen and (max-width: 768px) {
+            .illustration {
+                width: 90%;
+                height: auto;
+                max-height: 200px;
+            }
+            p {
+                font-size: 1em;
+                line-height: 1.4;
+            }
+            #no-button {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="custom-cursor"></div>
-    <div class="illustration"></div>
+    <div class="illustration">
+        <img src="Gifs/page3-garden.gif" alt="Three beans illustration">
+    </div>
     <p>Would you rather <span class="interactive" id="read">read</span> the one about the <span class="interactive" id="shrubs">three rather common or garden shrubs</span>?</p>
     <button id="no-button">No</button>
 
@@ -107,6 +133,13 @@
         noButton.addEventListener('click', () => {
             window.location.href = 'page21.html';
         });
+
+        // Check if it's a touch device
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0) {
+            // Hide custom cursor on touch devices
+            cursor.style.display = 'none';
+            document.body.style.cursor = 'auto';
+        }
     </script>
 </body>
 </html>

@@ -25,11 +25,16 @@
             justify-content: center;
             min-height: 100vh;
         }
-        #illustration {
+        .illustration {
             width: 300px;
             height: 200px;
-            border: 2px solid #0f0;
-            margin: 0 auto 20px;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         #text-container {
             height: auto;
@@ -106,7 +111,9 @@
 </head>
 <body>
     <div id="container">
-        <div id="illustration"></div>
+        <div class="illustration">
+            <img src="Gifs/page14-lupa.gif" alt="Analyse" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        </div>
         <div id="text-container">
             <p id="textLine1" class="text-line"></p>
             <p id="textLine2" class="text-line"></p>

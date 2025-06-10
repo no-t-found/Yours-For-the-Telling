@@ -150,7 +150,9 @@
 <body>
     <div id="custom-cursor"></div>
     <div class="content-container">
-        <div class="illustration"></div>
+        <div class="illustration">
+            <img id="soupGif" src="Gifs/page11-soup.gif" alt="Green Soup" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        </div>
         <div class="text-container">
             <p>They were dreaming they had gone to fetch their soup from the soup kitchen and,</p>
             <p class="typing-text"></p>
@@ -191,6 +193,20 @@
 
         setTimeout(typeWriter, 2000);
 
+        let backgroundChangeCount = 0;
+
+        function changeBackgroundColor() {
+            body.style.backgroundColor = '#200000';
+            document.querySelectorAll('.star').forEach(star => star.remove());
+            createBloodDrops();
+            awakeText.style.opacity = '1';
+            backgroundChangeCount++;
+            
+            if (backgroundChangeCount === 1) {
+                document.getElementById('soupGif').src = "Gifs/page11-soup-red.gif";
+            }
+        }
+
         function createStars() {
             const numStars = 100;
             for (let i = 0; i < numStars; i++) {
@@ -219,12 +235,7 @@
 
         createStars();
 
-        setTimeout(() => {
-            body.style.backgroundColor = '#200000';
-            document.querySelectorAll('.star').forEach(star => star.remove());
-            createBloodDrops();
-            awakeText.style.opacity = '1';
-        }, 10000);
+        setTimeout(changeBackgroundColor, 10000);
 
         document.addEventListener('DOMContentLoaded', function() {
             function makeVetchSoupClickable() {

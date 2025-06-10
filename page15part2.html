@@ -23,12 +23,16 @@
             flex-direction: column;
             align-items: center;
         }
-        #illustration {
+        .illustration {
             width: 300px;
             height: 200px;
-            border: 2px solid #0f0;
-            margin: 20px auto;
-            cursor: pointer;
+            border: 1px solid #0f0;
+            margin-bottom: 2em;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         #text-container {
             height: 150px; /* Adjust as needed */
@@ -89,7 +93,9 @@
 </head>
 <body>
     <div id="container">
-        <div id="illustration"></div>
+        <div class="illustration">
+            <img src="Gifs/page15part2-water.gif" alt="Fountain" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        </div>
         <div id="text-container">
             <p id="textLine1" class="text-line"></p>
             <p id="textLine2" class="text-line"></p>
@@ -104,8 +110,9 @@
     </div>
 
     <script>
-        const illustration = document.getElementById('illustration');
+        const illustration = document.querySelector('.illustration');
         const textLines = document.querySelectorAll('.text-line');
+        const textContainer = document.getElementById('text-container');
 
         function showText(element, text, delay = 0, callback = null) {
             setTimeout(() => {
@@ -148,40 +155,47 @@
             });
         }, 8000);
 
-        // Modify the click event listener for the illustration
-        illustration.addEventListener('click', () => {
-            hideText(textLines[1], 0, () => {
-                showText(textLines[2], "Let's go and bathe in the fountain, rather, and greet this bright morning in that state of holy euphoria that is hygiene's own reward!", 0, () => {
-                    setTimeout(() => {
-                        hideText(textLines[2], 0, () => {
-                            showText(textLines[3], "No sooner said that done.", 0, () => {
-                                setTimeout(() => {
-                                    hideText(textLines[3], 0, () => {
-                                        setTimeout(() => {
-                                            const lastLine = document.createElement('p');
-                                            lastLine.classList.add('text-line', 'fade-in');
-                                            lastLine.innerHTML = 'Slipping out of their pod, they rolled downhill and scampered merrily off to the <span class="clickable">theatre of their ablutions</span>.';
-                                            textLines[3].parentNode.appendChild(lastLine);
-                                            
-                                            // Make "theatre of their ablutions" clickable
-                                            const clickableSpan = lastLine.querySelector('.clickable');
-                                            clickableSpan.style.cursor = 'pointer';
-                                            clickableSpan.style.textDecoration = 'underline';
-                                            clickableSpan.addEventListener('click', () => {
-                                                window.location.href = 'page16.html';
-                                            });
+        let clickCount = 0;
 
-                                            // Show the icons after the last line appears
-                                            setTimeout(showIcons, 2000);
-                                        }, 1000);  // Short delay after hiding "No sooner said that done"
-                                    });
-                                }, 4000);
+        function handleClick() {
+            console.log("handleClick function called", clickCount);
+            clickCount++;
+            if (clickCount === 1) {
+                console.log("First click registered");
+                hideText(textLines[1], 0, () => {
+                    showText(textLines[2], "Let's go and bathe in the fountain, rather, and greet this bright morning in that state of holy euphoria that is hygiene's own reward!", 0, () => {
+                        setTimeout(() => {
+                            hideText(textLines[2], 0, () => {
+                                showText(textLines[3], "No sooner said that done.", 0, () => {
+                                    setTimeout(() => {
+                                        hideText(textLines[3], 0, () => {
+                                            setTimeout(() => {
+                                                const lastLine = document.createElement('p');
+                                                lastLine.classList.add('text-line', 'fade-in');
+                                                lastLine.innerHTML = 'Slipping out of their pod, they rolled downhill and scampered merrily off to the <span class="clickable">theatre of their ablutions</span>.';
+                                                textContainer.appendChild(lastLine);
+                                                
+                                                const clickableSpan = lastLine.querySelector('.clickable');
+                                                clickableSpan.addEventListener('click', () => {
+                                                    window.location.href = 'page16.html';
+                                                });
+
+                                                setTimeout(showIcons, 2000);
+                                            }, 1000);
+                                        });
+                                    }, 4000);
+                                });
                             });
-                        });
-                    }, 6000);
+                        }, 6000);
+                    });
                 });
-            });
-        });
+            }
+        }
+
+        // Add a single click event listener to the entire document
+        document.addEventListener('click', handleClick);
+
+        console.log("Script fully loaded and running");
     </script>
 </body>
 </html>

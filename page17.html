@@ -17,17 +17,24 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin-top: -50px; /* Adjust this value as needed */
         }
         .illustration-container {
             position: relative;
             width: 300px;
             height: 200px;
-            margin-bottom: 2em;
+            margin-bottom: 4em; /* Increase this value to add more space */
+            margin-top: 100px; /* Add this line to move it up */
         }
         .illustration {
-            width: 100%;
-            height: 100%;
+            position: relative;
+            width: 300px;
+            height: 200px;
             border: 1px solid #0f0;
+            margin-bottom: 3em; /* Increased space between illustration and text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .cross {
             position: absolute;
@@ -44,6 +51,7 @@
             font-size: 1.2em;
             line-height: 1.6;
             max-width: 600px;
+            margin-top: 0; /* Removes default top margin */
         }
         .button-container {
             margin-top: 2em;
@@ -78,7 +86,9 @@
 </head>
 <body>
     <div class="illustration-container">
-        <div class="illustration"></div>
+        <div class="illustration">
+            <img src="Gifs/page3-garden.gif" alt="Three shrubs illustration" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        </div>
         <div class="cross">✕</div>
     </div>
     <p>
@@ -106,18 +116,18 @@
         });
 
         // Interaction for the illustration
-        const illustrationContainer = document.querySelector('.illustration-container');
+        const illustration = document.querySelector('.illustration');
         const cross = document.querySelector('.cross');
 
-        illustrationContainer.addEventListener('mouseover', () => {
+        illustration.addEventListener('mouseover', () => {
             cross.style.opacity = '1';
         });
 
-        illustrationContainer.addEventListener('mouseout', () => {
+        illustration.addEventListener('mouseout', () => {
             cross.style.opacity = '0';
         });
 
-        illustrationContainer.addEventListener('click', () => {
+        illustration.addEventListener('click', () => {
             window.location.href = 'page21.html';
         });
 
